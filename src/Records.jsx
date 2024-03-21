@@ -3,39 +3,37 @@ import React, { useState } from "react";
 function Records() {
   const ary = [
     { id: 1, Name: "Abhi", Work: "Developer" },
-    { id: 1, Name: "abhi", Work: "Developer" },
-    { id: 2, Name: "Sumit", Work: "social media" },
-    { id: 2, Name: "sumit", Work: "social media" },
+    { id: 1, Name: "aarav", Work: "Developer" },
+    { id: 2, Name: "Sumit", Work: "social media manager" },
+    { id: 2, Name: "sagar", Work: "social media manager" },
     { id: 3, Name: "Kumar", Work: "Editor" },
-    { id: 3, Name: "kumar", Work: "Editor" },
+    { id: 3, Name: "keshav", Work: "Editor" },
     { id: 4, Name: "Ishi", Work: "designer" },
-    { id: 4, Name: "ishi", Work: "designer" },
+    { id: 4, Name: "vandana", Work: "manager" },
   ];
 
-  // Initialize LookingFor with an empty string to ensure initial state is captured
   const [inputValue, setInputValue] = useState("");
-  const [Name, setName] = useState("");
-  const [Work, setWork] = useState("");
-  const [foundData, setfounddata] = useState({});
+  const [foundData, setFoundData] = useState(null);
 
   const handleChange = (event) => {
-    setInputValue(event.target.value);
-    setfounddata("");
-    setName("");
-    setWork("");
-    for (let i = 0; i < 4; i++) {
-      if (ary[i].Name == inputValue) {
-        setfounddata(ary[i]);
-        setName("Name is ");
-        setWork("Working as ");
-      }
+    const newInputValue = event.target.value.toLowerCase();
+    setInputValue(newInputValue);
+
+    const filteredData = ary.find((item) =>
+      item.Name.toLowerCase().startsWith(newInputValue)
+    );
+
+    if (filteredData) {
+      setFoundData(filteredData);
+    } else {
+      setFoundData("No data ");
     }
   };
-  function Clear() {
-    setfounddata("");
-    setName("");
-    setWork("");
-  }
+
+  const clearSearch = () => {
+    setInputValue("");
+    setFoundData(null);
+  };
 
   return (
     <div style={{ backgroundColor: "lightblue", padding: "10px" }}>
@@ -44,24 +42,25 @@ function Records() {
           <u>This is the 2nd task</u>
         </b>
       </i>
-      <br></br>
+      <br />
       <h4>Get Information</h4>
       <label>
         Search:
         <input type="text" value={inputValue} onChange={handleChange} />
-        <button onClick={Clear}>Clear</button>
+        <button onClick={clearSearch}>Clear</button>
       </label>
 
-      <p>
-        {Name}
-        {foundData.Name}
-        <br></br>
-        {Work}
-        {foundData.Work}
-      </p>
+      {foundData && ( // Conditionally render result only if foundData is not null
+        <p>
+          Name is: {foundData.Name}
+          <br />
+          Working as: {foundData.Work}
+        </p>
+      )}
+
       <h7>
-        *You can search for Abhi , Kumar ,Ishi and Sumit ,information will be
-        displayed above *
+        *You can search for Abhi, Kumar,vandana,sagar,aarav, Ishi, and Sumit.
+        Information will be displayed above.*
       </h7>
     </div>
   );

@@ -6,15 +6,16 @@ function Cal() {
   const [result, changeresult] = useState(0);
   const add = () => {
     // console.log(val1 + val2);
+
     changeresult(val1 + val2);
   };
 
   const handleVal1Change = (event) => {
-    setVal1(parseInt(event.target.value)); // Update val1 using setVal1
+    setVal1(parseFloat(event.target.value)); // Update val1 using setVal1
   };
 
   const handleVal2Change = (event) => {
-    setVal2(parseInt(event.target.value)); // Update val2 using setVal2
+    setVal2(parseFloat(event.target.value)); // Update val2 using setVal2
   };
 
   return (
@@ -27,14 +28,12 @@ function Cal() {
         </i>
         <br></br>
         <label>
-          Value 1{" "}
-          <input type="number" value={val1} onChange={handleVal1Change} />
+          Value 1 <input id="v1" type="number" onChange={handleVal1Change} />
         </label>
         <label>
-          Value 2{" "}
-          <input type="number" value={val2} onChange={handleVal2Change} />
+          Value 2 <input id="v2" type="number" onChange={handleVal2Change} />
         </label>
-        <button onClick={add}>GO!</button>
+        <button onClick={add}>CALCULATE</button>
         <br></br>
         <label>
           Sum is : <div style={{ backgroundColor: "white" }}>{result}</div>
