@@ -14,6 +14,9 @@ function Records() {
 
   const [inputValue, setInputValue] = useState("");
   const [foundData, setFoundData] = useState(null);
+  const [Nameis, changeNameis] = useState("");
+  const [Workingas, changeWorkingas] = useState("");
+  const [msg, setmsg] = useState("");
 
   const handleChange = (event) => {
     const newInputValue = event.target.value.toLowerCase();
@@ -25,8 +28,14 @@ function Records() {
 
     if (filteredData) {
       setFoundData(filteredData);
+      setmsg("");
+      changeNameis("Name is:");
+      changeWorkingas("Working as:");
     } else {
       setFoundData("No data ");
+      changeNameis("");
+      changeWorkingas("");
+      setmsg("Not data found");
     }
   };
 
@@ -49,12 +58,14 @@ function Records() {
         <input type="text" value={inputValue} onChange={handleChange} />
         <button onClick={clearSearch}>Clear</button>
       </label>
-
+      <br></br>
+      {msg}
       {foundData && ( // Conditionally render result only if foundData is not null
         <p>
-          Name is: {foundData.Name}
+          {Nameis}
+          {foundData.Name}
           <br />
-          Working as: {foundData.Work}
+          {Workingas} {foundData.Work}
         </p>
       )}
 
