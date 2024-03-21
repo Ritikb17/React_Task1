@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Counter() {
+function Task2() {
   const [count, setCount] = useState(0);
 
   return (
@@ -14,4 +14,4 @@ function Counter() {
     </div>
   );
 }
-export default Counter;
+export default Task2;

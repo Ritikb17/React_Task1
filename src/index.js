@@ -1,11 +1,14 @@
 import React from "react";
 import a from "./App.css";
-import Setstate from "./Setstate";
-import Counter from "./Counter";
-import SetState from "./Setstate";
+import HomePage from "./HomePage";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
+
 import ReactDOM from "react-dom/client";
 const root = ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Counter />
+    <Router>
+      <HomePage />
+    </Router>
   </React.StrictMode>
 );
