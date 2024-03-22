@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import data from "./MOCK_DATA.json";
+import data from "./MOCK_DATA .json";
 
 const UserData = () => {
   const [userData, setUserData] = useState([]);
@@ -7,7 +7,26 @@ const UserData = () => {
   const [lookingFor, setLookingFor] = useState("");
 
   const search = (event) => {
-    setLookingFor(event.target.value.toLowerCase());
+    const query = event.target.value.toLowerCase();
+
+    const filteredData = data.filter((user) => {
+      for (const key in user) {
+        if (Object.prototype.hasOwnProperty.call(user, key)) {
+          const value = user[key];
+
+          if (
+            typeof value === "string" &&
+            value.toLowerCase().includes(query)
+          ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+
+    setUserData(filteredData);
+    setLookingFor(query);
   };
 
   useEffect(() => {
@@ -39,71 +58,99 @@ const UserData = () => {
     }
   };
 
-  const filteredData = lookingFor
-    ? userData.filter((user) =>
-        user.Customer.toLowerCase().startsWith(lookingFor)
-      )
-    : userData;
-
   return (
     <>
-      <div id="search">
-        <label> Search :</label>
-        <input
-          type="text"
-          placeholder="Search"
-          value={lookingFor}
-          onChange={search}
-        />
-      </div>
+      <nav className="navbar bg-body-tertiary">
+        <div className="container-fluid">
+          <form className="d-flex" role="search"></form>
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={lookingFor}
+            onChange={search}
+          />
+        </div>
+      </nav>
       <div id="box">
-        <table>
+        <table className="table table-borderless">
           <thead>
             <tr>
               <th>
                 <label>Customer</label>
-                <button onClick={() => handleSort("Customer")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Customer")}
+                >
                   Sort/Unsort
                 </button>
               </th>
               <th>
                 <label>Last_seen</label>
-                <button onClick={() => handleSort("Last_seen")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Last_seen")}
+                >
                   Sort/Unsort
                 </button>
               </th>
               <th>
                 <label>Orders</label>
-                <button onClick={() => handleSort("Orders")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Orders")}
+                >
                   Sort/Unsort
                 </button>
               </th>
               <th>
                 <label>Total_spend</label>
-                <button onClick={() => handleSort("Total_spend")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Total_spend")}
+                >
                   Sort/Unsort
                 </button>
               </th>
               <th>
                 <label>Latest_purchase</label>
-                <button onClick={() => handleSort("Latest_purchase")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Latest_purchase")}
+                >
                   Sort/Unsort
                 </button>
               </th>
               <th>
                 <label>News</label>
-                <button onClick={() => handleSort("News")}>Sort/Unsort</button>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("News")}
+                >
+                  Sort/Unsort
+                </button>
               </th>
               <th>
                 <label>Segments</label>
-                <button onClick={() => handleSort("Segments")}>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => handleSort("Segments")}
+                >
                   Sort/Unsort
                 </button>
               </th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((user, index) => (
+            {userData.map((user, index) => (
               <tr key={index}>
                 <td>{user.Customer}</td>
                 <td>{user.Last_seen}</td>
@@ -111,7 +158,7 @@ const UserData = () => {
                 <td>{user.Total_spend}</td>
                 <td>{user.Latest_purchase}</td>
                 <td>{tick(user.News)}</td>
-                <td>{user["Segments "]}</td>
+                <td>{user.Segments}</td>
               </tr>
             ))}
           </tbody>
