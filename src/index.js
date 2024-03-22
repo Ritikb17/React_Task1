@@ -1,14 +1,10 @@
 import React from "react";
-import a from "./App.css";
-import HomePage from "./HomePage";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Routes, Route, Link } from "react-router-dom";
-
+import Navigation from "./Navigation";
+import box_css from "./index.css";
 import ReactDOM from "react-dom/client";
+
 const root = ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Router>
-      <HomePage />
-    </Router>
+    <Navigation />
   </React.StrictMode>
 );
