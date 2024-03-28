@@ -1,10 +1,12 @@
+// index.js
 import React from "react";
-import Navigation from "./Navigation";
-import box_css from "./index.css";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
+import "./app.css";
+import App from "./App";
 
-const root = ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.render(
   <React.StrictMode>
-    <Navigation />
-  </React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
 );
