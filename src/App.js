@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-// import "./App.css";
+import "./App.css";
 
 const initialTasks = [
   { id: "task1", content: "Task 1" },
@@ -12,6 +12,7 @@ const initialTasks = [
   { id: "task7", content: "Task 7" },
 ];
 const name = ["Today", "Tomorrow", "This week", "Next Week"];
+
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [div2Tasks, setDiv2Tasks] = useState([]);
@@ -19,72 +20,194 @@ function App() {
   const [div4Tasks, setDiv4Tasks] = useState([]);
   const [div5Tasks, setDiv5Tasks] = useState([]);
 
+  function findInAry(ary, value) {
+    for (let i = 0; i < ary.length; i++) {
+      if (ary[i].id === value) {
+        return ary[i].content;
+      }
+    }
+    return "";
+  }
+
+  function removeFromSource(source, index) {
+    switch (source) {
+      case "div1":
+        setTasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 1);
+          return newTasks;
+        });
+        break;
+      case "div2":
+        setDiv2Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 1);
+          return newTasks;
+        });
+        break;
+      case "div3":
+        setDiv3Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 1);
+          return newTasks;
+        });
+        break;
+      case "div4":
+        setDiv4Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 1);
+          return newTasks;
+        });
+        break;
+      case "div5":
+        setDiv5Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 1);
+          return newTasks;
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  const insertToDestination = (index, draggableId, droppableId) => {
+    let val = findInAry(tasks, draggableId);
+
+    switch (droppableId) {
+      case "div1":
+        setTasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 0, { id: draggableId, content: val });
+          return newTasks;
+        });
+        break;
+      case "div2":
+        setDiv2Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 0, { id: draggableId, content: val });
+          return newTasks;
+        });
+        break;
+      case "div3":
+        setDiv3Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 0, { id: draggableId, content: val });
+          return newTasks;
+        });
+        break;
+      case "div4":
+        setDiv4Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 0, { id: draggableId, content: val });
+          return newTasks;
+        });
+        break;
+      case "div5":
+        setDiv5Tasks((prevTasks) => {
+          const newTasks = [...prevTasks];
+          newTasks.splice(index, 0, { id: draggableId, content: val });
+          return newTasks;
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
+
     if (!destination) return;
 
-    const draggableId = result.draggableId;
-
     if (source.droppableId === destination.droppableId) {
-      if (destination.droppableId === "div1") {
-        const newTasks = Array.from(tasks);
-        const [removed] = newTasks.splice(source.index, 1);
-        newTasks.splice(destination.index, 0, removed);
-        setTasks(newTasks);
-      } else if (destination.droppableId === "div2") {
-        const newDiv2Tasks = Array.from(div2Tasks);
-        const [removed] = newDiv2Tasks.splice(source.index, 1);
-        newDiv2Tasks.splice(destination.index, 0, removed);
-        setDiv2Tasks(newDiv2Tasks);
-      } else if (destination.droppableId === "div3") {
-        const newDiv3Tasks = Array.from(div3Tasks);
-        const [removed] = newDiv3Tasks.splice(source.index, 1);
-        newDiv3Tasks.splice(destination.index, 0, removed);
-        setDiv3Tasks(newDiv3Tasks);
-      } else if (destination.droppableId === "div4") {
-        const newDiv4Tasks = Array.from(div4Tasks);
-        const [removed] = newDiv4Tasks.splice(source.index, 1);
-        newDiv4Tasks.splice(destination.index, 0, removed);
-        setDiv4Tasks(newDiv4Tasks);
-      } else if (destination.droppableId === "div5") {
-        const newDiv5Tasks = Array.from(div5Tasks);
-        const [removed] = newDiv5Tasks.splice(source.index, 1);
-        newDiv5Tasks.splice(destination.index, 0, removed);
-        setDiv5Tasks(newDiv5Tasks);
+      const targetTasks = getList(source.droppableId);
+
+      const removed = targetTasks.splice(source.index, 1);
+      targetTasks.splice(destination.index, 0, ...removed);
+
+      switch (source.droppableId) {
+        case "div1":
+          setTasks(targetTasks);
+          break;
+        case "div2":
+          setDiv2Tasks(targetTasks);
+          break;
+        case "div3":
+          setDiv3Tasks(targetTasks);
+          break;
+        case "div4":
+          setDiv4Tasks(targetTasks);
+          break;
+        case "div5":
+          setDiv5Tasks(targetTasks);
+          break;
+        default:
+          break;
       }
     } else {
-      if (destination.droppableId === "div1") {
-        const newTasks = Array.from(tasks);
-        const newDiv2Tasks = Array.from(div2Tasks);
-        const [removed] = newDiv2Tasks.splice(source.index, 1);
-        newTasks.splice(destination.index, 0, removed);
-        setTasks(newTasks);
-        setDiv2Tasks(newDiv2Tasks);
-      } else if (destination.droppableId === "div2") {
-        const newDiv2Tasks = Array.from(div2Tasks);
-        const [removed] = tasks.splice(source.index, 1);
-        newDiv2Tasks.splice(destination.index, 0, removed);
-        setTasks(tasks);
-        setDiv2Tasks(newDiv2Tasks);
-      } else if (destination.droppableId === "div3") {
-        const newDiv3Tasks = Array.from(div3Tasks);
-        const [removed] = tasks.splice(source.index, 1);
-        newDiv3Tasks.splice(destination.index, 0, removed);
-        setTasks(tasks);
-        setDiv3Tasks(newDiv3Tasks);
-      } else if (destination.droppableId === "div4") {
-        const newDiv4Tasks = Array.from(div4Tasks);
-        const [removed] = tasks.splice(source.index, 1);
-        newDiv4Tasks.splice(destination.index, 0, removed);
-        setTasks(tasks);
-        setDiv4Tasks(newDiv4Tasks);
-      } else if (destination.droppableId === "div5") {
-        const newDiv5Tasks = Array.from(div5Tasks);
-        const [removed] = tasks.splice(source.index, 1);
-        newDiv5Tasks.splice(destination.index, 0, removed);
-        setTasks(tasks);
-        setDiv5Tasks(newDiv5Tasks);
+      const sourceTasks = getList(source.droppableId);
+      const destinationTasks = getList(destination.droppableId);
+
+      const [removed] = sourceTasks.splice(source.index, 1);
+      destinationTasks.splice(destination.index, 0, removed);
+
+      switch (source.droppableId) {
+        case "div1":
+          setTasks(sourceTasks);
+          break;
+        case "div2":
+          setDiv2Tasks(sourceTasks);
+          break;
+        case "div3":
+          setDiv3Tasks(sourceTasks);
+          break;
+        case "div4":
+          setDiv4Tasks(sourceTasks);
+          break;
+        case "div5":
+          setDiv5Tasks(sourceTasks);
+          break;
+        default:
+          break;
       }
+
+      switch (destination.droppableId) {
+        case "div1":
+          setTasks(destinationTasks);
+          break;
+        case "div2":
+          setDiv2Tasks(destinationTasks);
+          break;
+        case "div3":
+          setDiv3Tasks(destinationTasks);
+          break;
+        case "div4":
+          setDiv4Tasks(destinationTasks);
+          break;
+        case "div5":
+          setDiv5Tasks(destinationTasks);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const getList = (id) => {
+    switch (id) {
+      case "div1":
+        return tasks;
+      case "div2":
+        return div2Tasks;
+      case "div3":
+        return div3Tasks;
+      case "div4":
+        return div4Tasks;
+      case "div5":
+        return div5Tasks;
+      default:
+        return [];
     }
   };
 
@@ -122,83 +245,24 @@ function App() {
             <Droppable droppableId={`div${i + 2}`}>
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {i === 0 &&
-                    div2Tasks.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            className="task"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {task.content}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  <br></br>
-                  {i === 1 &&
-                    div3Tasks.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            className="task"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {task.content}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  {i === 2 &&
-                    div4Tasks.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            className="task"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {task.content}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  {i === 3 &&
-                    div5Tasks.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            className="task"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {task.content}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
+                  {getList(`div${i + 2}`).map((task, index) => (
+                    <Draggable
+                      key={task.id}
+                      draggableId={task.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          className="task"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          {task.content}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
                   {provided.placeholder}
                 </div>
               )}
